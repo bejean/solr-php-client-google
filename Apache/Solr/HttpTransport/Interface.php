@@ -71,6 +71,18 @@ interface Apache_Solr_HttpTransport_Interface
 	public function setAuthenticationCredentials($username, $password);
 	
 	/**
+	 * Set proxy.
+	 * 
+	 * These will be used to perform HTTP connection througt proxy.
+	 * 
+	 * @param string $proxy
+	 * @param string $port
+	 * @param string $username
+	 * @param string $password
+	 */
+	public function setProxy($proxy, $port, $username = '', $password = '');
+	
+	/**
 	 * Perform a GET HTTP operation with an optional timeout and return the response
 	 * contents, use getLastResponseHeaders to retrieve HTTP headers
 	 *

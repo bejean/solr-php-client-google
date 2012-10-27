@@ -100,6 +100,23 @@ class Apache_Solr_HttpTransport_Curl extends Apache_Solr_HttpTransport_Abstract
 		));
 	}
 
+	public function setProxy($proxy, $port, $username = '', $password = '') 
+	{
+		// add the options to our curl handle
+		curl_setopt_array($this->_curl, array(
+			CURLOPT_PROXY => $proxy,
+			CURLOPT_PROXYPORT => $port
+		));
+		
+		if ($username != '' && $password != '') 
+		{
+			curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXYAUTH => CURLAUTH_BASIC,
+				CURLOPT_PROXYUSERPWD => "$username:$password"
+			));
+		}
+	}
+	
 	public function performGetRequest($url, $timeout = false)
 	{
 		// check the timeout value

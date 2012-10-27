@@ -580,6 +580,17 @@ class Apache_Solr_Service
 	}
 
 	/**
+	 * Convenience method to set proxy
+	 * 
+	 * @param string $username
+	 * @param string $password
+	 */
+	public function setProxy($proxy, $port, $username = '', $password = '')
+	{
+		$this->getHttpTransport()->setProxy($proxy, $port, $username, $password);
+	}
+
+	/**
 	 * Set how NamedLists should be formatted in the response data. This mainly effects
 	 * the facet counts format.
 	 *

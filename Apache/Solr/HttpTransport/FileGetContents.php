@@ -94,6 +94,25 @@ class Apache_Solr_HttpTransport_FileGetContents extends Apache_Solr_HttpTranspor
 		$this->_authHeader .= "\r\n";
 	}
 
+	public function setProxy($proxy, $port, $username = '', $password = '') 
+	{
+		$proxy = "tcp://$proxy:$port";
+
+		// set it now for get and head contexts
+		stream_context_set_option($this->_getContext, 'http', 'proxy', $proxy);
+		stream_context_set_option($this->_headContext, 'http', 'proxy', $proxy);
+		
+		if ($username != '' && $password != '') 
+		{
+			$authProxy = base64_encode("$username:$password");
+			$proxyAutorization = "Proxy-Authorization: Basic $authProxy";
+			
+			// set it now for get and head contexts
+			stream_context_set_option($this->_getContext, 'http', 'header', $proxyAutorization);
+			stream_context_set_option($this->_headContext, 'http', 'header', $proxyAutorization);
+		}
+	}
+	
 	public function performGetRequest($url, $timeout = false)
 	{
 		// set the timeout if specified

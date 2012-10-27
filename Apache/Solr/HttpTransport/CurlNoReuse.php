@@ -57,6 +57,10 @@ class Apache_Solr_HttpTransport_CurlNoReuse extends Apache_Solr_HttpTransport_Ab
 	const SVN_ID = '$Id:$';
 	
 	private $_authString = false;
+	private $_proxy = '';
+	private $_proxyPort = '';
+	private $_proxyUsername = '';
+	private $_proxyPassword = '';
 	
 	public function setAuthenticationCredentials($username, $password)
 	{
@@ -64,6 +68,14 @@ class Apache_Solr_HttpTransport_CurlNoReuse extends Apache_Solr_HttpTransport_Ab
 		$this->_authString = $username . ":" . $password;	
 	}
 
+	public function setProxy($proxy, $port, $username = '', $password = '')
+	{
+		$this->_proxy = $proxy;
+		$this->_proxyPort = $port;
+		$this->_proxyUsername = $username;
+		$this->_proxyPassword = $password;
+	}
+	
 	public function performGetRequest($url, $timeout = false)
 	{
 		// check the timeout value
@@ -100,6 +112,23 @@ class Apache_Solr_HttpTransport_CurlNoReuse extends Apache_Solr_HttpTransport_Ab
 				CURLOPT_USERPWD => $this->_authString,
 				CURLOPT_HTTPAUTH => CURLAUTH_BASIC		
 			));
+		}
+				
+		// set proxy
+		if ($this->_proxy != '' && $this->_proxyPort != '') 
+		{
+			curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXY => $this->_proxy,
+				CURLOPT_PROXYPORT => $this->_proxyPort
+			));
+		
+			if ($this->_proxyUsername != '' && $this->_proxyPassword != '') 
+			{
+				curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXYAUTH => CURLAUTH_BASIC,
+				CURLOPT_PROXYUSERPWD => "$this->_proxyUsername:$this->_proxyPassword"
+				));
+			}
 		}
 
 		// make the request
@@ -154,6 +183,23 @@ class Apache_Solr_HttpTransport_CurlNoReuse extends Apache_Solr_HttpTransport_Ab
 				CURLOPT_USERPWD => $this->_authString,
 				CURLOPT_HTTPAUTH => CURLAUTH_BASIC		
 			));
+		}
+		
+		// set proxy
+		if ($this->_proxy != '' && $this->_proxyPort != '') 
+		{
+			curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXY => $this->_proxy,
+				CURLOPT_PROXYPORT => $this->_proxyPort
+			));
+		
+			if ($this->_proxyUsername != '' && $this->_proxyPassword != '') 
+			{
+				curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXYAUTH => CURLAUTH_BASIC,
+				CURLOPT_PROXYUSERPWD => "$this->_proxyUsername:$this->_proxyPassword"
+				));
+			}
 		}
 		
 		// make the request
@@ -214,6 +260,23 @@ class Apache_Solr_HttpTransport_CurlNoReuse extends Apache_Solr_HttpTransport_Ab
 				CURLOPT_USERPWD => $this->_authString,
 				CURLOPT_HTTPAUTH => CURLAUTH_BASIC		
 			));
+		}
+		
+		// set proxy
+		if ($this->_proxy != '' && $this->_proxyPort != '') 
+		{
+			curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXY => $this->_proxy,
+				CURLOPT_PROXYPORT => $this->_proxyPort
+			));
+		
+			if ($this->_proxyUsername != '' && $this->_proxyPassword != '') 
+			{
+				curl_setopt_array($this->_curl, array(
+				CURLOPT_PROXYAUTH => CURLAUTH_BASIC,
+				CURLOPT_PROXYUSERPWD => "$this->_proxyUsername:$this->_proxyPassword"
+				));
+			}
 		}
 		
 		// make the request
